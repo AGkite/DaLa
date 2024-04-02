@@ -1,6 +1,6 @@
 # dala_flutter
 
-A new Flutter project.
+搭拉-一个找搭子的客户端
 
 ## Getting Started
 
