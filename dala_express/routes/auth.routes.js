@@ -9,17 +9,66 @@ module.exports = function(app) {
     );
     next();
   });
-
-  // 注册接口
+/**
+ * @swagger
+ * /api/auth/signup:
+ *   post:
+ *     summary: 用户注册接口
+ *     tags:
+ *       - 公共接口
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               mobile:
+ *                 type: string
+ *               roles:
+ *                 type: array
+ *                 items:
+ *                   type: string
+ *     responses:
+ *       '200':
+ *         description: 注册成功
+ */
   app.post(
     "/api/auth/signup",
     [
-      verifySignUp.checkDuplicateUsernameOrEmail,
+      verifySignUp.checkDuplicateField,
       verifySignUp.checkRolesExisted
     ],
     controller.signup
   );
 
-  // 登录接口
+/**
+ * @swagger
+ * /api/auth/signin:
+ *   post:
+ *     summary: 用户登录接口
+ *     tags:
+ *       - 公共接口
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *     responses:
+ *       '200':
+ *         description: 登录成功
+ */
   app.post("/api/auth/signin", controller.signin);
 };

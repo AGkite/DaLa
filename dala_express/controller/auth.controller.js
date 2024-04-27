@@ -1,16 +1,21 @@
 const config = require("../config/auth.config");
 const db = require("../models");
+const Response = require("../utils/response");
+const { ResponseCodeEnum } = require("../enum");
 const User = db.user;
 const Role = db.role;
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
+// 注册
 exports.signup = (req, res) => {
     const user = new User({
         username: req.body.username,
+        password: bcrypt.hashSync(req.body.password, 8),
         email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
+        mobile: req.body.mobile,
+        remark: req.body.remark,
     });
 
     user.save()
@@ -30,30 +35,29 @@ exports.signup = (req, res) => {
             }
         })
         .then(() => {
-            res.send({ message: "用户注册成功!" });
+            res.send(Response.success('用户注册成功！'));
         })
         .catch(err => {
-            res.status(500).send({ message: err.message || "用户注册失败！" });
+            res.status(500).send(Response.fail(ResponseCodeEnum.REGISTER_FAIL));
         });
 };
 
+// 登录
 exports.signin = async (req, res) => {
     try {
         const user = await User.findOne({ username: req.body.username }).populate("roles", "-__v");
 
         if (!user) {
-            return res.status(404).send({ message: "未找到用户." });
+            // 用户不存在
+            return res.status(404).send(Response.fail(ResponseCodeEnum.USERNAME_NOT_FOUND));
         }
-
+        // 验证密码
         const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
         if (!passwordIsValid) {
-            return res.status(401).send({
-                accessToken: null,
-                message: "无效的密码!"
-            });
+            return res.status(401).send(Response.fail(ResponseCodeEnum.USERNAME_OR_PWD_ERROR));
         }
-
+        // 生成Token
         const token = jwt.sign({ id: user._id }, config.secret, {
             algorithm: 'HS256',
             allowInsecureKeySizes: true,
@@ -62,14 +66,17 @@ exports.signin = async (req, res) => {
 
         const authorities = user.roles.map(role => "ROLE_" + role.name.toUpperCase());
 
-        res.status(200).send({
+        res.status(200).send(Response.success("登录成功！",{
             id: user._id,
             username: user.username,
             email: user.email,
+            mobile: user.mobile,
+            remark: user.remark,
             roles: authorities,
             accessToken: token
-        });
+        }));
     } catch (err) {
-        res.status(500).send({ message: err.message || "登录失败！" });
+        console.log(err)
+        res.status(500).send(Response.fail(ResponseCodeEnum.LOGIN_FAIL));
     }
 };

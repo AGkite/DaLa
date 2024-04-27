@@ -1,12 +1,30 @@
 const express = require("express");
 const cors = require("cors");
+const swaggerJSDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 const app = express();
 
+// 生成 swagger 接口文档
+const swaggerOptions = {
+    swaggerDefinition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Dala 项目后端接口文档',
+            version: '1.0.0',
+            description: 'Dala 项目后端接口文档',
+        }
+    },
+    apis: ['./routes/*.js'], // 路由文件的路径
+};
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// 跨域资源共享
 var corsOptions = {
     origin: "http://localhost:8081"
 };
-
 app.use(cors(corsOptions));
 
 // 解析内容类型为 application/json 的请求, 处理发送到服务器的 JSON 格式请求体

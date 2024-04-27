@@ -141,3 +141,106 @@ git clone https://github.com/AGkite/DaLa.git
 - 搭建好Git，Flutter，Android Studio，Express.js开发环境
 - 拉取仓库，Android Studio运行 dala_flutter 项目，并进行任意修改，如标题等。再推送上远程仓库。
 - 尽快学习各种技术
+
+---
+
+# Flutter 前端
+
+## 一、页面设计
+
+> 登录页面
+
+
+
+---
+
+# Node.js后端
+
+## 一、MongoDB数据库设计
+
+> 用户表 Users
+
+```json
+{
+  "_id": {// 对象Id
+    "$oid": "662c7d41b29e82d0cb530f70"
+  },
+  "username": "aaa",// 用户名
+  "password": "$2a$08$VVgzpOjrWl43FbaZauwZquHDa/7V9k5EYX5azAhB06gK6f6ygvp.G",// 密码
+  "email": "aaaaasss@gmail.com",// 电子邮箱
+  "mobile": "13500022222",// 手机号码
+  "remark": "一个测试账号",// 备注
+  "roles": [// 用户拥有的角色,关联 Roles 表
+    {
+      "$oid": "6613d549778be1f59a34c379"
+    },
+    {
+      "$oid": "6613d549778be1f59a34c377"
+    }
+  ],
+  "isDeleted": false,// 逻辑删除
+  "createTime": {// 创建时间，默认为当前时间
+    "$date": "2024-04-27T04:21:21.654Z"
+  },
+  "updateTime": {// 最近更新时间，默认为当前时间
+    "$date": "2024-04-27T04:21:21.654Z"
+  },
+  "__v": 1
+}
+```
+
+> 用户角色表 Roles
+
+```json
+{
+  "_id": {// 对象Id
+    "$oid": "6613d549778be1f59a34c379"
+  },
+  "name": "admin",// 角色名
+  "__v": 0
+}
+```
+
+...
+
+## 二、接口文档
+
+**示例**：
+
+> 登录接口
+
+- 入参
+
+```json
+{
+    "username": "bbb",
+    "password": "123456",
+}
+```
+
+- 出参
+
+```json
+{
+    "success": true,
+    "message": "登录成功！",
+    "errorCode": null,
+    "data": {
+        "id": "662c7d41b29e82d0cb530f70",
+        "username": "aaa",
+        "email": "aaaaasss@gmail.com",
+        "mobile": "13500022222",
+        "remark": "一个测试账号",
+        "roles": [
+            "ROLE_ADMIN",
+            "ROLE_USER"
+        ],
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MmM3ZDQxYjI5ZTgyZDBjYjUzMGY3MCIsImlhdCI6MTcxNDIwNTc0NywiZXhwIjoxNzE0MjkyMTQ3fQ.LhC-CMfaRFvTCp0likMR5qF_U0Op1mf2NIvYU5gT-iY"
+    }
+}
+```
+
+`dala_express`后端项目已接入 `swagger` 文档，`node server.js`运行项目，浏览器访问：`http://127.0.0.1:8080/api-docs/`查看项目所有接口。
+
+![](images/Snipaste_2024-04-27_17-33-46.jpg)
+
