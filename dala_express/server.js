@@ -39,12 +39,9 @@ const dbConfig = require("./config/db.config");
 const Role = db.role;
 
 db.mongoose
-    .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
+    .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`)
     .then(() => {
-        console.log("成功连接到 MongoDB 。");
+        console.log("成功连接到 MongoDB ...");
         initial();
     })
     .catch(err => {
@@ -57,21 +54,21 @@ function initial() {
         .then((count) => {
             if (count === 0) {
                 const saveRolesPromises = [
-                  new Role({ name: "user" }).save(),
-                  new Role({ name: "moderator" }).save(),
-                  new Role({ name: "admin" }).save()
+                    new Role({ name: "user" }).save(),
+                    new Role({ name: "moderator" }).save(),
+                    new Role({ name: "admin" }).save()
                 ];
-              
+
                 Promise.all(saveRolesPromises)
-                  .then(results => {
-                    results.forEach(result => {
-                      console.log(`增加一个 '${result.name}' 到 roles 集合`);
+                    .then(results => {
+                        results.forEach(result => {
+                            console.log(`增加一个 '${result.name}' 到 roles 集合`);
+                        });
+                    })
+                    .catch(err => {
+                        console.error("保存角色时出错:", err);
                     });
-                  })
-                  .catch(err => {
-                    console.error("保存角色时出错:", err);
-                  });
-              }
+            }
         }).catch(err => console.log("计算文档数量时出错：", err));
 }
 
@@ -86,6 +83,6 @@ require('./routes/user.routes')(app);
 // 可自定义端口, 默认 8080
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
-    console.log(`dala_express 服务运行在端口: ${PORT}`);
+    console.log(`dala_express 服务运行在端口: ${PORT} ...`);
 })
 
