@@ -146,17 +146,29 @@ git clone https://github.com/AGkite/DaLa.git
 
 # Flutter 前端
 
-## 一、页面设计
+## 一、项目目录
+
+![](images/Snipaste_2024-04-28_19-47-04.jpg)
+
+## 二、页面设计
 
 > 登录页面
 
+![](images/Snipaste_2024-04-28_19-39-05.jpg)
 
+> 注册页面
+
+![](images/Snipaste_2024-04-28_19-39-05.jpg)
 
 ---
 
 # Node.js后端
 
-## 一、MongoDB数据库设计
+## 一、项目目录
+
+![](images/Snipaste_2024-04-28_19-53-11.jpg)
+
+## 二、MongoDB数据库设计
 
 > 用户表 Users
 
@@ -203,7 +215,7 @@ git clone https://github.com/AGkite/DaLa.git
 
 ...
 
-## 二、接口文档
+## 三、接口文档
 
 **示例**：
 
