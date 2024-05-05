@@ -213,7 +213,10 @@ git clone https://github.com/AGkite/DaLa.git
 }
 ```
 
-详细见`/database/dala_model.ndm2`文件。
+- 设计数据表：编辑`/database/dala_model.ndm2`文件。
+- 查看数据表：查看`/database/database_design.avg`文件。
+
+![](images/Snipaste_2024-05-05_21-32-35.jpg)
 
 ## 三、接口文档
 
