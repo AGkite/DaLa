@@ -1,14 +1,14 @@
 // 统一请求响应类
 class Response {
-    constructor(success, message, errorCode, data) {
+    constructor(success, message, errorCode = 0, data) {
         this.success = success; // 响应是否成功的标志
         this.message = message; // 响应消息
-        this.errorCode = errorCode; // 业务异常码
+        this.errorCode = errorCode; // 业务异常码，默认为0
         this.data = data;       // 响应数据
     }
 
     static success(message, data) {
-        return new Response(true, message, null, data ? data : null);
+        return new Response(true, message, 0, data ? data : null);
     }
 
     static fail(errorEnumOrMessage, errorCodeOrData, data) {

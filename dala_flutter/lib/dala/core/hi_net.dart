@@ -13,13 +13,12 @@ class HiNet {
   }
 
   Future fire(BaseRequest request) async {
-    HiNetResponse<dynamic>? response;
+    HiNetResponse<dynamic>? response = HiNetResponse();
     var error;
     try {
       response = await send(request);
     } on HiNetError catch(e) {
       error = e;
-      response = e.data;
       printLog(e.message);
     } catch(e) {
       // 其它错误
@@ -30,21 +29,13 @@ class HiNet {
     if (response == null) {
       printLog(error);
     }
-
-    var result = response?.data;
-    printLog(result);
-
-    var status = response?.statusCode;
-    switch(status) {
-      case 200:
-        return result;
-      case 401:
-        throw NeedLogin();
-      case 403:
-        throw NeedAuth(result.toString(), data: result);
-      defalut:
-        throw HiNetError(status!, result.toString(), data: result);
+    // 异常
+    var errorCode = response?.errorCode;
+    if (errorCode != 0) {
+      throw HiNetError(errorCode, response?.message);
     }
+
+    return response;
   }
 
 

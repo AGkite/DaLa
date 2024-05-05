@@ -213,7 +213,7 @@ git clone https://github.com/AGkite/DaLa.git
 }
 ```
 
-...
+详细见`/database/dala_model.ndm2`文件。
 
 ## 三、接口文档
 

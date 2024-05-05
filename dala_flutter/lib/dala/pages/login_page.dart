@@ -1,13 +1,13 @@
 import 'package:dala_flutter/dala/core/hi_error.dart';
+import 'package:dala_flutter/dala/core/hi_net_adapter.dart';
 import 'package:dala_flutter/dala/dao/login_dao.dart';
-import 'package:dala_flutter/dala/utils/string_util.dart';
-import 'package:dala_flutter/dala/utils/toast.dart';
 import 'package:dala_flutter/dala/widget/appbar.dart';
 import 'package:dala_flutter/dala/widget/login_button.dart';
 import 'package:dala_flutter/dala/widget/login_effect.dart';
 import 'package:dala_flutter/dala/widget/login_input.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:bot_toast/bot_toast.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -79,22 +79,18 @@ class _LoginPageState extends State<LoginPage> {
 
   void send() async {
     try{
-      var result =
-      await LoginDao.login(userName!, password!);
-      print(result);
-      if (result['code'] == 0) {
+      HiNetResponse<dynamic> response = await LoginDao.login(userName!, password!);
+      print(response.message);
+      if (response.errorCode == 0) {
         print('登录成功');
-        showToast('登陆成功');
+        BotToast.showText(text: "登录成功",contentColor: Colors.green);
       } else {
-        print(result['msg']);
-        showToast(result['msg']);
+        print(response.message);
+        BotToast.showText(text: response.message!);
       }
-    } on NeedAuth catch(e) {
+    } on HiNetError catch(e) {
       print(e);
-      showWarnToast(e.message);
-    } on NeedLogin catch(e) {
-      print(e);
-      showWarnToast(e.message);
+      BotToast.showText(text: e.message!,contentColor: Colors.red);
     }
   }
 }

@@ -9,36 +9,38 @@ import 'hi_error.dart';
 class DioAdapter extends HiNetAdapter {
   @override
   Future<HiNetResponse<T>> send<T>(BaseRequest request) async {
-    var response,options = Options(headers: request.header);
-    var error;
+    RequestOptions requestOptions = RequestOptions();
+    Response response = Response(requestOptions: requestOptions);
+    Dio dio = Dio();
     try {
       if (request.httpMethod() == HttpMethod.GET) {
-        response = await Dio().get(request.url(), options: options);
+        response = await dio.get(request.url(), options: Options(headers: request.header));
       } else if (request.httpMethod() == HttpMethod.POST) {
-        response = await Dio().post(request.url(), data:request.params, options: options);
-      }else if (request.httpMethod() == HttpMethod.DELETE) {
-        response = await Dio().delete(request.url(), data:request.params,options:options);
+        response = await dio.post(request.url(), data:request.params, options: Options(headers: request.header));
+      } else if (request.httpMethod() == HttpMethod.DELETE) {
+        response = await dio.delete(request.url(), data:request.params, options: Options(headers: request.header));
       }
     } on DioException catch(e) {
-      error = e;
-      response = e.response;
-    }
-    if (error!=null) {
-      // 抛出HiNetError
-      throw HiNetError(response?.statusCode ?? -1, error.toString(),
-          data: buildRes(response,request));
+      // 如果出现Dio错误，则抛出HiNetError
+      throw HiNetError(e.response?.statusCode ?? -1, e.message, data: e.response?.data);
+    } finally {
+      // print("abcd:" + response.data.toString());
+      // print("success:"+response.data['success'].toString());
+      // print("message:"+ response.data['message'].toString());
+      // print("errorCode:"+response.data['errorCode'].toString());
+      // print("data:"+response.data['data'].toString());
     }
 
-    return buildRes(response, request);
+    // 构建适配后的HiNetResponse对象
+    return buildRes<T>(response, request);
   }
 
   HiNetResponse<T> buildRes<T>(Response response, BaseRequest request) {
     return HiNetResponse<T>(
-      data: response.data,
-      request: request,
-      statusCode: response.statusCode,
-      statusMessage: response.statusMessage,
-      extra: response
+      success: response.data['success'],
+      message: response.data['message'],
+      data: response.data['data'],
+      errorCode: response.data['errorCode'],
     );
   }
 }

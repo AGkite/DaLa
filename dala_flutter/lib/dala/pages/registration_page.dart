@@ -141,17 +141,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
       var result =
           await LoginDao.registration(userName!, password!, email!, mobile!, roles!);
       print(result);
-      if (result['code'] == 0) {
+      if (result['errorCode'] == 0) {
         print('注册成功');
         if (widget.onJumpToLogin != null) {
           widget.onJumpToLogin();
         }
       } else {
-        print(result['msg']);
+        print(result['message']);
       }
-    } on NeedAuth catch(e) {
-      print(e);
-    } on NeedLogin catch(e) {
+    } on HiNetError catch(e) {
       print(e);
     }
   }

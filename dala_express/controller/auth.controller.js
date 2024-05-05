@@ -65,8 +65,8 @@ exports.signin = async (req, res) => {
         });
 
         const authorities = user.roles.map(role => "ROLE_" + role.name.toUpperCase());
-
-        res.status(200).send(Response.success("登录成功！",{
+        
+        var ans = res.status(200).send(Response.success("登录成功！",{
             id: user._id,
             username: user.username,
             email: user.email,
@@ -75,6 +75,7 @@ exports.signin = async (req, res) => {
             roles: authorities,
             accessToken: token
         }));
+        console.log(ans);
     } catch (err) {
         console.log(err)
         res.status(500).send(Response.fail(ResponseCodeEnum.LOGIN_FAIL));

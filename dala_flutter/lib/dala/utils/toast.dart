@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:bot_toast/bot_toast.dart';
 
-// 封装消息弹出组件
-void showWarnToast(String text) {
-  Fluttertoast.showToast(
-    msg: text,
-    toastLength: Toast.LENGTH_LONG,
-    gravity: ToastGravity.CENTER,
-    backgroundColor: Colors.red,
-    textColor: Colors.white);
-}
 
-void showToast(String text) {
-  Fluttertoast.showToast(
-    msg: text,
-    toastLength: Toast.LENGTH_LONG,
-    gravity: ToastGravity.CENTER);
-}
+// void showToast(BuildContext context, String text) {
+//   final scaffold = ScaffoldMessenger.of(context);
+//   scaffold.showSnackBar(
+//     SnackBar(
+//       content: Text(text),
+//       action: SnackBarAction(label: '取消', onPressed: scaffold.hideCurrentSnackBar),
+//       behavior: SnackBarBehavior.floating,
+//     ),
+//   );
+// }
+//
+// void showWarnToast(BuildContext context, String text) {
+//   final scaffold = ScaffoldMessenger.of(context);
+//   scaffold.showSnackBar(
+//     SnackBar(
+//       content: Text(text),
+//       action: SnackBarAction(label: '取消', onPressed: scaffold.hideCurrentSnackBar),
+//       behavior: SnackBarBehavior.floating,
+//     ),
+//   );
+// }
