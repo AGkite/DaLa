@@ -1,5 +1,4 @@
-
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:dala_flutter/dala/core/hi_net.dart';
 import 'package:dala_flutter/dala/core/hi_net_adapter.dart';
@@ -12,23 +11,23 @@ class LoginDao {
   static const ACCESS_TOKEN = "accessToken";
   static login(String userName, String password) async {
     BaseRequest request = LoginRequest();
-    request
-        .add("username", userName)
-        .add("password",password);
+    request.add("username", userName).add("password", password);
 
     HiNetResponse<dynamic> response = await HiNet.getInstance()?.fire(request);
-    if(response.errorCode == 0 && response.data['accessToken'] != null){
+    if (response.errorCode == 0 && response.data['accessToken'] != null) {
       // 保存登陆令牌
-      HiCache.getInstance()?.setString(ACCESS_TOKEN, response.data['accessToken']);
+      HiCache.getInstance()
+          ?.setString(ACCESS_TOKEN, response.data['accessToken']);
     }
     return response;
-
   }
-  static registration(String userName, String password, String email, String mobile, List<String> roles) async {
+
+  static registration(String userName, String password, String email,
+      String mobile, List<String> roles) async {
     BaseRequest request = RegistrationRequest();
     request
         .add("username", userName)
-        .add("password",password)
+        .add("password", password)
         .add("email", email)
         .add("mobile", mobile)
         .add("roles", roles);

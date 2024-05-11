@@ -91,6 +91,7 @@ class _CirclePageState extends State<CirclePage> {
             // 中间高度自适应
             Expanded(
               child: Container(
+                width: mediaWidth,
                 margin: const EdgeInsets.fromLTRB(20, 0, 20, 20),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(60),
@@ -106,7 +107,7 @@ class _CirclePageState extends State<CirclePage> {
                     end: Alignment.bottomRight,
                     colors: [
                       Color(0xffd5a982), // 渐变色起始颜色
-                      Color(0xfff1e3d6), // 渐变色结束颜色
+                      Color(0xfff1e3d6),
                       Color(0xffffffff), // 渐变色结束颜色
                     ],
                   ),
